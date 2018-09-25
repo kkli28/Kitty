@@ -146,27 +146,27 @@ void Utility::handleVHLine(Image image, Point beg, Point end, Color c) {
 	}
 }
 
+void Utility::safeSet(Image image, int x, int y, Color c) {
+	if (x < 0 || x >= LOGIC_WIDTH || y < 0 || y >= LOGIC_HEIGHT) return;
+	image[x * LOGIC_WIDTH + y] = c;
+}
+
 void Utility::addCircle(Image image, Point center, int r, Color c) {
 	// 半径小于等于1，画一个点
-	if (r <= 1) {
+	if (r < 1) {
 		setColor(image, center.x, center.y, c);
 		return;
 	}
 
 	auto setColorForCircle = [center](Image image, int x, int y, Color c) {
-		auto set = [image, c](int a, int b) {
-			if (a < 0 || a >= LOGIC_WIDTH || b < 0 || b >= LOGIC_HEIGHT) return;
-			image[a * LOGIC_WIDTH + b] = c;
-		};
-
-		set(center.x + x, center.y + y);
-		set(center.x + x, center.y - y);
-		set(center.x - x, center.y + y);
-		set(center.x - x, center.y - y);
-		set(center.x + y, center.y + x);
-		set(center.x + y, center.y - x);
-		set(center.x - y, center.y + x);
-		set(center.x - y, center.y - x);
+		safeSet(image, center.x + x, center.y + y, c);
+		safeSet(image, center.x + x, center.y - y, c);
+		safeSet(image, center.x - x, center.y + y, c);
+		safeSet(image, center.x - x, center.y - y, c);
+		safeSet(image, center.x + y, center.y + x, c);
+		safeSet(image, center.x + y, center.y - x, c);
+		safeSet(image, center.x - y, center.y + x, c);
+		safeSet(image, center.x - y, center.y - x, c);
 	};
 	
 	int x = 0;
@@ -184,4 +184,57 @@ void Utility::addCircle(Image image, Point center, int r, Color c) {
 		}
 		setColorForCircle(image, x, y, c);
 	}
+}
+
+void Utility::addEllipse(Image image, Point center, int rx, int ry, Color c)
+{
+	if (rx < 0 || ry < 0) {
+		setColor(image, center.x, center.y, c);
+		return;
+	}
+
+	auto setColorForEllipse = [center](Image image, int x, int y, Color c) {
+		safeSet(image, center.x + x, center.y + y, c);
+		safeSet(image, center.x + x, center.y - y, c);
+		safeSet(image, center.x - x, center.y + y, c);
+		safeSet(image, center.x - x, center.y - y, c);
+	};
+
+	int rx2 = rx * rx;
+	int ry2 = ry * ry;
+	int twoRx2 = 2 * rx2;
+	int twoRy2 = 2 * ry2;
+	int p = ry2 - rx2 * ry + rx2 * 0.25;
+	int px = 0;
+	int py = twoRx2 * ry;
+	int x = 0;
+	int y = ry;
+	setColorForEllipse(image, x, y, c);
+	while (px <= py) {
+		++x;
+		px += twoRy2;
+		if (p < 0) {
+			p += ry2 + px;
+		}
+		else {
+			--y;
+			py -= twoRx2;
+			p += ry2 + px - py;
+		}
+		setColorForEllipse(image, x, y, c);
+	}
+	p = ry2 * (x + 0.5) * (x + 0.5) + ry2 * (y - 1) * (y - 1) - rx2 * ry2;
+	while (y >= 0) {
+		--y;
+		py -= twoRx2;
+		if (p < 0) {
+			p += rx2 - py;
+		}
+		else {
+			++x;
+			px += twoRy2;
+			p += rx2 - py + px;
+		}
+	}
+	setColorForEllipse(image, x, y, c);
 }

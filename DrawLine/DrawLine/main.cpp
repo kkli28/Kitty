@@ -5,8 +5,10 @@
 
 int main() {
 	Image image = Utility::newImage();
+	Utility::setImage(image, BLACK);
 	//Test::drawLine(image, DrawType::DDA);
-	Test::drawCircle(image);
-	Utility::save(image, "circle.png");
+	//Test::drawCircle(image);
+	Test::drawEllipse(image);
+	Utility::save(image, "ellipse.png");
 	return 0;
 }

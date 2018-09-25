@@ -64,8 +64,11 @@ public:
 	// 向 image 中添加一条起点为 beg，终点为 end，颜色为 c 的直线，并使用 type 算法绘制
 	static void addLine(Image image, Point beg, Point end, Color c, DrawType type = DrawType::NORMAL);
 
-	// 向 image 中添加一个中点为 beg, 半径为 r，颜色为 c 的圆（外框）
+	// 向 image 中添加一个中点为 center，半径为 r，颜色为 c 的圆（外框）
 	static void addCircle(Image image, Point center, int r, Color c);
+
+	// 向 image 中添加一个中点为 center，长轴为 rx，短轴为 ry，颜色为 c 的椭圆（外框）
+	static void addEllipse(Image image, Point center, int rx, int ry, Color c);
 	
 	// 新建一张图片
 	static Image newImage() { return new Color[LOGIC_WIDTH * LOGIC_HEIGHT]; }
@@ -88,6 +91,9 @@ private:
 	
 	// 处理水平或垂直的线
 	static void handleVHLine(Image image, Point beg, Point end, Color c);
+
+	// 安全地设置 image 中 (x, y) 坐标处颜色为 c
+	static void safeSet(Image image, int x, int y, Color c);
 };
 
 /*
@@ -96,4 +102,5 @@ TODO:
 #. 增加直线剪裁算法
 #. 增加线条粗细设置
 #. 线条颜色渐变
+#. 图形的填充
 */

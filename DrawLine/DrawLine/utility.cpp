@@ -1,9 +1,9 @@
-#include "utility.h"
+#include "Utility.h"
 #include "svpng.h"
 
 const int Utility::SCREEN_WIDTH = 640;
 const int Utility::SCREEN_HEIGHT = 640;
-const int Utility::PIXEL_WIDTH = 1;
+const int Utility::PIXEL_WIDTH = 2;
 const int Utility::LOGIC_WIDTH = SCREEN_WIDTH / PIXEL_WIDTH;
 const int Utility::LOGIC_HEIGHT = SCREEN_HEIGHT / PIXEL_WIDTH;
 const int Utility::BORDER_WIDTH = 2;
@@ -143,5 +143,45 @@ void Utility::handleVHLine(Image image, Point beg, Point end, Color c) {
 		for (int x = std::min(beg.x, end.x); x <= std::max(beg.x, end.x); ++x) {
 			setColor(image, x, beg.y, c);
 		}
+	}
+}
+
+void Utility::addCircle(Image image, Point center, int r, Color c) {
+	// 半径小于等于1，画一个点
+	if (r <= 1) {
+		setColor(image, center.x, center.y, c);
+		return;
+	}
+
+	auto setColorForCircle = [center](Image image, int x, int y, Color c) {
+		auto set = [image, c](int a, int b) {
+			if (a < 0 || a >= LOGIC_WIDTH || b < 0 || b >= LOGIC_HEIGHT) return;
+			image[a * LOGIC_WIDTH + b] = c;
+		};
+
+		set(center.x + x, center.y + y);
+		set(center.x + x, center.y - y);
+		set(center.x - x, center.y + y);
+		set(center.x - x, center.y - y);
+		set(center.x + y, center.y + x);
+		set(center.x + y, center.y - x);
+		set(center.x - y, center.y + x);
+		set(center.x - y, center.y - x);
+	};
+	
+	int x = 0;
+	int y = r;
+	int p = 1 - r;
+	setColorForCircle(image, x, y, c);
+	while (x <= y) {
+		++x;
+		if (p < 0) {
+			p += 2 * x + 1;
+		}
+		else {
+			--y;
+			p += 2 * x + 1 - 2 * y;
+		}
+		setColorForCircle(image, x, y, c);
 	}
 }

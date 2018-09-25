@@ -18,7 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="utility.cpp">
+    <ClCompile Include="Utility.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +29,10 @@
     <ClInclude Include="svpng.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="utility.h">
+    <ClInclude Include="Utility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

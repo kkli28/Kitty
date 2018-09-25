@@ -64,6 +64,9 @@ public:
 	// 向 image 中添加一条起点为 beg，终点为 end，颜色为 c 的直线，并使用 type 算法绘制
 	static void addLine(Image image, Point beg, Point end, Color c, DrawType type = DrawType::NORMAL);
 
+	// 向 image 中添加一个中点为 beg, 半径为 r，颜色为 c 的圆（外框）
+	static void addCircle(Image image, Point center, int r, Color c);
+	
 	// 新建一张图片
 	static Image newImage() { return new Color[LOGIC_WIDTH * LOGIC_HEIGHT]; }
 

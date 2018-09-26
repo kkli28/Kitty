@@ -28,7 +28,7 @@ void Test::drawCircle(Image image) {
 }
 
 void Test::drawEllipse(Image image) {
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 40; ++i) {
 		Point center;
 		center.x = rand() % Utility::LOGIC_WIDTH;
 		center.y = rand() % Utility::LOGIC_HEIGHT;

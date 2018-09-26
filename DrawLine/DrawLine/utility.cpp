@@ -158,7 +158,7 @@ void Utility::addCircle(Image image, Point center, int r, Color c) {
 		return;
 	}
 
-	auto setColorForCircle = [center](Image image, int x, int y, Color c) {
+	auto setColorForCircle = [image, center, c](int x, int y) {
 		safeSet(image, center.x + x, center.y + y, c);
 		safeSet(image, center.x + x, center.y - y, c);
 		safeSet(image, center.x - x, center.y + y, c);
@@ -172,7 +172,7 @@ void Utility::addCircle(Image image, Point center, int r, Color c) {
 	int x = 0;
 	int y = r;
 	int p = 1 - r;
-	setColorForCircle(image, x, y, c);
+	setColorForCircle(x, y);
 	while (x <= y) {
 		++x;
 		if (p < 0) {
@@ -182,7 +182,7 @@ void Utility::addCircle(Image image, Point center, int r, Color c) {
 			--y;
 			p += 2 * x + 1 - 2 * y;
 		}
-		setColorForCircle(image, x, y, c);
+		setColorForCircle(x, y);
 	}
 }
 
@@ -193,7 +193,7 @@ void Utility::addEllipse(Image image, Point center, int rx, int ry, Color c)
 		return;
 	}
 
-	auto setColorForEllipse = [center](Image image, int x, int y, Color c) {
+	auto setColorForEllipse = [image, center, c](int x, int y) {
 		safeSet(image, center.x + x, center.y + y, c);
 		safeSet(image, center.x + x, center.y - y, c);
 		safeSet(image, center.x - x, center.y + y, c);
@@ -204,13 +204,15 @@ void Utility::addEllipse(Image image, Point center, int rx, int ry, Color c)
 	int ry2 = ry * ry;
 	int twoRx2 = 2 * rx2;
 	int twoRy2 = 2 * ry2;
-	int p = ry2 - rx2 * ry + rx2 * 0.25;
 	int px = 0;
 	int py = twoRx2 * ry;
 	int x = 0;
 	int y = ry;
-	setColorForEllipse(image, x, y, c);
-	while (px <= py) {
+	setColorForEllipse(x, y);
+
+	// region 1: |k| < 1
+	int p = ry2 - rx2 * ry + rx2 * 0.25;
+	while (px < py) {
 		++x;
 		px += twoRy2;
 		if (p < 0) {
@@ -221,13 +223,15 @@ void Utility::addEllipse(Image image, Point center, int rx, int ry, Color c)
 			py -= twoRx2;
 			p += ry2 + px - py;
 		}
-		setColorForEllipse(image, x, y, c);
+		setColorForEllipse(x, y);
 	}
-	p = ry2 * (x + 0.5) * (x + 0.5) + ry2 * (y - 1) * (y - 1) - rx2 * ry2;
-	while (y >= 0) {
+
+	// region 2: |k| >= 1
+	p = ry2 * (x + 0.5) * (x + 0.5) + rx2 * (y - 1) * (y - 1) - rx2 * ry2;
+	while (y > 0) {
 		--y;
 		py -= twoRx2;
-		if (p < 0) {
+		if (p > 0) {
 			p += rx2 - py;
 		}
 		else {
@@ -235,6 +239,6 @@ void Utility::addEllipse(Image image, Point center, int rx, int ry, Color c)
 			px += twoRy2;
 			p += rx2 - py + px;
 		}
+		setColorForEllipse(x, y);
 	}
-	setColorForEllipse(image, x, y, c);
 }

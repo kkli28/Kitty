@@ -40,8 +40,26 @@ public:
 	void setupRotate(int axis, float theta);
 	void setupRotate(const Vec3& axis, float theta);
 
-	// TODO:
-	// void fromQuaternion(const Quaternion& q);
+	void fromQuaternion(const Quaternion& q);
+	void setupScale(const Vec3& v);
+	void setupScaleAlongAxis(const Vec3& axis, float k);
+	void setupShear(int axis, float s, float t);
+	void setupProject(const Vec3& v);
+	void setupReflect(int axis, float k = 0.0f);
+	void setupReflect(const Vec3& v);
+
+public:
+	static float determinant(const Matrix4x3& m);
+	static Matrix4x3 inverse(const Matrix4x3& m);
+	Vec3& getTranslation(const Matrix4x3& m);
+
+	Vec3 getPositionFromParentToLocalMatrix(const Matrix4x3& m);
+	Vec3 getPositionFromLocalToParentMatrix(const Matrix4x3& m);
 };
+
+Vec3 operator*(const Vec3& v, const Matrix4x3& m);
+Vec3& operator*=(Vec3& v, const Matrix4x3& m);
+Matrix4x3 operator*(const Matrix4x3& m1, const Matrix4x3& m2);
+Matrix4x3& operator*=(Matrix4x3& m1, const Matrix4x3& m2);
 
 #endif // __MATRIX_4X3__

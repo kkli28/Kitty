@@ -25,9 +25,9 @@ void RotationMatrix::setup(const EulerAngles& e) {
 }
 
 void RotationMatrix::fromInertialToObjectQuaternion(const Quaternion& q) {
-	float x2 = q.x * q.x;
-	float y2 = q.y * q.y;
-	float z2 = q.z * q.z;
+	float xx = q.x * q.x;
+	float yy = q.y * q.y;
+	float zz = q.z * q.z;
 	float wx = q.w * q.x;
 	float wy = q.w * q.y;
 	float wz = q.w * q.z;
@@ -35,23 +35,23 @@ void RotationMatrix::fromInertialToObjectQuaternion(const Quaternion& q) {
 	float xz = q.x * q.z;
 	float yz = q.y * q.z;
 
-	m11 = 1.0f - 2.0f * (y2 + z2);
+	m11 = 1.0f - 2.0f * (yy + zz);
 	m12 = 2.0f * (xy - wz);
 	m13 = 2.0f * (wy + xz);
 
 	m21 = 2.0f * (xy + wz);
-	m22 = 1.0f - 2.0f * (x2 + z2);
+	m22 = 1.0f - 2.0f * (xx + zz);
 	m23 = 2.0f * (yz - wx);
 
 	m31 = 2.0f * (xz - wy);
 	m32 = 2.0f * (wx + yz);
-	m33 = 1.0f - 2.0f * (x2 + y2);
+	m33 = 1.0f - 2.0f * (xx + yy);
 }
 
 void RotationMatrix::fromObjectToInertialQuaternion(const Quaternion& q) {
-	float x2 = q.x * q.x;
-	float y2 = q.y * q.y;
-	float z2 = q.z * q.z;
+	float xx = q.x * q.x;
+	float yy = q.y * q.y;
+	float zz = q.z * q.z;
 	float wx = q.w * q.x;
 	float wy = q.w * q.y;
 	float wz = q.w * q.z;
@@ -59,17 +59,17 @@ void RotationMatrix::fromObjectToInertialQuaternion(const Quaternion& q) {
 	float xz = q.x * q.z;
 	float yz = q.y * q.z;
 
-	m11 = 1.0f - 2.0f * (y2 + z2);
+	m11 = 1.0f - 2.0f * (yy + zz);
 	m12 = 2.0f * (xy + wz);
 	m13 = 2.0f * (xz - wy);
 	
 	m21 = 2.0f * (xy - wz);
-	m22 = 1.0f - 2.0f * (x2 + z2);
+	m22 = 1.0f - 2.0f * (xx + zz);
 	m23 = 2.0f * (wx + yz);
 
 	m31 = 2.0f * (wy + xz);
 	m32 = 2.0f * (yz - wx);
-	m33 = 1.0f - 2.0f * (x2 + y2);
+	m33 = 1.0f - 2.0f * (xx + yy);
 }
 
 Vec3 RotationMatrix::inertialToObject(const Vec3& v) const {

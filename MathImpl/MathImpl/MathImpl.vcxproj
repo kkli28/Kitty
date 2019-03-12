@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="EulerAngles.h" />
     <ClInclude Include="MathUtil.h" />
+    <ClInclude Include="Matrix4x3.h" />
     <ClInclude Include="RotationMatrix.h" />
     <ClInclude Include="std.h" />
     <ClInclude Include="Vec3.h" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="EulerAngles.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix4x3.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Quaternion.h" />
     <ClCompile Include="RotationMatrix.cpp" />

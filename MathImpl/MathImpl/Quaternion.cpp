@@ -1,4 +1,4 @@
-#include "Quaternion.hpp"
+#include "Quaternion.h"
 #include "MathUtil.h"
 #include "Vec3.h"
 #include "EulerAngles.h"

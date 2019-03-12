@@ -22,6 +22,9 @@
     <ClInclude Include="RotationMatrix.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix4x3.h">
+      <Filter>code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,6 +40,9 @@
       <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="Quaternion.h">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x3.cpp">
       <Filter>code</Filter>
     </ClCompile>
   </ItemGroup>

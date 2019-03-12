@@ -1,6 +1,6 @@
 #include "EulerAngles.h"
 #include "MathUtil.h"
-#include "Quaternion.hpp"
+#include "Quaternion.h"
 
 void EulerAngles::canonize() {
 	// pitch to [-PI, PI]
